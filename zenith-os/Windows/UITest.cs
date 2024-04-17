@@ -8,7 +8,7 @@ namespace zenithos.Windows
         public InputField field1;
       
        
-        public UITest() : base(100, 100, 200, 100, "UI Test", Kernel.defFont, true)
+        public UITest() : base(100, 100, 200, 100, "UI Test", Kernel.defFont, false)
         {
             field1 = new(20, 20, 100, font, 5);
           

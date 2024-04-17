@@ -32,13 +32,13 @@ namespace zenithos
         public static int activeIndex = -1;
         bool mainBar;
 
-        [ManifestResourceStream(ResourceName = "zenithos.Resource.blue.bmp")]
+        [ManifestResourceStream(ResourceName = "zenithos.Resource.blue1.bmp")]
         static readonly byte[] bgBytes;
 
         [ManifestResourceStream(ResourceName = "zenithos.Resource.cur.bmp")]
         static readonly byte[] curBytes;
 
-        [ManifestResourceStream(ResourceName ="zenithos.Resource.zenith.bmp")]
+        [ManifestResourceStream(ResourceName = "zenithos.Resource.zenith.bmp")]
         static readonly byte[] logoBytes;
       
         [ManifestResourceStream(ResourceName = "zenithos.Resource.startup.wav")]
@@ -105,31 +105,32 @@ namespace zenithos
             cursor = new Bitmap(curBytes);
             logo = new Bitmap(logoBytes);
 
-            mainButton = new Button("Zenith", 0, 0, mainCol, defFont,7,logo);
+            mainButton = new Button("Timur", 0, 0, mainCol, defFont,7,logo);
           
 
             applications.Add(new Application(() => new Calc(), "Calculator",new Calc().logo));
             applications.Add(new Application(() => new TestWindow(), "Test Window",new TestWindow().logo));
             applications.Add(new Application(() => new UITest(), "UI Test", new UITest().logo));
-            applications.Add(new Application(() => new About(), "About Zenith...", new About().logo));
+            applications.Add(new Application(() => new About(), "About Timur...", new About().logo));
+            applications.Add(new Application(() => new BgChange(), "BgChange", new Windows.Power().logo));
             applications.Add(new Application(() => new Windows.Power(), "Power...",new Windows.Power().logo));
-            
-           
+
+
             for (int i = 0; i < applications.Count; i++)
             {
                 applicationsButtons.Add(new Button(applications[i].name, 30, 40 + i * 50, mainCol, defFont, 10, applications[i].logo,240));
             }
 
-            try
-            {
-                var mixer = new AudioMixer();
-                var audioStream = MemoryAudioStream.FromWave(sampleAudioBytes);
-                var driver = AC97.Initialize(bufferSize: 4096);
-            }
-            catch(Exception ex)
-            {
-                ThrowError(ex.Message, "Audio Driver Initialization Error");
-            }
+            //try
+            //{
+            //    var mixer = new AudioMixer();
+            //    var audioStream = MemoryAudioStream.FromWave(sampleAudioBytes);
+            //    var driver = AC97.Initialize(bufferSize: 4096);
+            //}
+            //catch(Exception ex)
+            //{
+            //    ThrowError(ex.Message, "Audio Driver Initialization Error");
+            //}
 
         }
 
@@ -143,17 +144,6 @@ namespace zenithos
                 yPos = (int)canv.Mode.Height - 16;
             }
 
-            /*for (int i = xPos - 5; i <= xPos + 5; i++)
-            {
-                if (i >= 0 && i < canv.Mode.Width && yPos >= 0 && yPos < canv.Mode.Width)
-                    canv.DrawPoint(col, i, yPos);
-            }
-
-            for (int j = yPos - 5; j <= yPos + 5; j++)
-            {
-                if (j >= 0 && j < canv.Mode.Width && xPos >= 0 && xPos < canv.Mode.Width)
-                    canv.DrawPoint(col, xPos, j);
-            }*/
             canv.DrawImageAlpha(cursor, xPos, yPos);
         }
         
@@ -168,8 +158,6 @@ namespace zenithos
             {
                 mainBar = !mainBar;
             }
-
-            
 
             int mx = (int)MouseManager.X;
             int my = (int)MouseManager.Y;
