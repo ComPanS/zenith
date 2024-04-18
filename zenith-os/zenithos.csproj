@@ -25,8 +25,16 @@
     <ItemGroup>
       <None Remove="Resource\Applogos\calc.bmp" />
       <None Remove="Resource\Applogos\gear.bmp" />
-      <None Remove="Resource\blue.bmp" />
+      <None Remove="Resource\bg.bmp" />
+      <None Remove="Resource\bg1.bmp" />
+      <None Remove="Resource\bg2.bmp" />
+      <None Remove="Resource\bg3.bmp" />
+      <None Remove="Resource\bg3.jpg" />
+      <None Remove="Resource\bg4.bmp" />
+      <None Remove="Resource\bg4.jpg" />
+      <None Remove="Resource\bg5.bmp" />
       <None Remove="Resource\blue.png" />
+      <None Remove="Resource\blue1.bmp" />
       <None Remove="Resource\cur.bmp" />
       <None Remove="Resource\error.bmp" />
       <None Remove="Resource\startup.wav" />
@@ -37,7 +45,12 @@
     <ItemGroup>
       <EmbeddedResource Include="Resource\Applogos\calc.bmp" />
       <EmbeddedResource Include="Resource\Applogos\gear.bmp" />
-      <EmbeddedResource Include="Resource\blue.bmp" />
+      <EmbeddedResource Include="Resource\bg.bmp" />
+      <EmbeddedResource Include="Resource\bg1.bmp" />
+      <EmbeddedResource Include="Resource\bg2.bmp" />
+      <EmbeddedResource Include="Resource\bg3.bmp" />
+      <EmbeddedResource Include="Resource\bg4.bmp" />
+      <EmbeddedResource Include="Resource\bg5.bmp" />
       <EmbeddedResource Include="Resource\cur.bmp" />
       <EmbeddedResource Include="Resource\error.bmp" />
       <EmbeddedResource Include="Resource\startup.wav" />

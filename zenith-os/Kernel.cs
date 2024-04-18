@@ -29,11 +29,13 @@ namespace zenithos
         static List<Application> applications = new();
         List<Button> applicationsButtons = new();
         Button mainButton;
+        Button calendar;
         public static int activeIndex = -1;
         bool mainBar;
+        public static int bgCount = 1;
 
-        [ManifestResourceStream(ResourceName = "zenithos.Resource.blue1.bmp")]
-        static readonly byte[] bgBytes;
+        [ManifestResourceStream(ResourceName = "zenithos.Resource.bg.bmp")]
+        public static readonly byte[] bgBytes;
 
         [ManifestResourceStream(ResourceName = "zenithos.Resource.cur.bmp")]
         static readonly byte[] curBytes;
@@ -50,8 +52,9 @@ namespace zenithos
         {
             canv.DrawFilledRectangle(bgCol, 0, 0, (int)canv.Mode.Width, 30);
             mainButton.Update(0, 0);
+            calendar.Update(0, 0);
             string time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
-            canv.DrawString(time, defFont, textColDark, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 10);
+            //canv.DrawString(time, defFont, textColDark, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 10);
             canv.DrawString(activeIndex != -1 && windows.Count != 0 && activeIndex < windows.Count ? windows[activeIndex].title:"",defFont,textColDark,170,8);
         }
 
@@ -70,7 +73,11 @@ namespace zenithos
                     break;
                 }
             }
-           
+        }
+
+        void DrawCalendar()
+        {
+            canv.DrawFilledRectangle(bgCol, 100, 40, 300, applicationsButtons.Count * 50 + 40);
         }
 
         public static void ThrowError(string content,string title="Error")
@@ -105,7 +112,10 @@ namespace zenithos
             cursor = new Bitmap(curBytes);
             logo = new Bitmap(logoBytes);
 
+            string time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
+
             mainButton = new Button("Timur", 0, 0, mainCol, defFont,7,logo);
+            calendar = new Button(time, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont,7);
           
 
             applications.Add(new Application(() => new Calc(), "Calculator",new Calc().logo));
@@ -149,7 +159,6 @@ namespace zenithos
         
         protected override void Run()
         {
-            
             canv.Clear();
             canv.DrawImage(bg, 0, 0);
             DrawTopbar();
