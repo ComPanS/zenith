@@ -71,10 +71,6 @@ namespace zenithos.Windows
                     Kernel.bg = new Bitmap(bg5Bytes);
                         break;
                 }
-                
-                
-            
-            
         }
     }
 }

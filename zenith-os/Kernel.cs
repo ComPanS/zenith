@@ -27,12 +27,16 @@ namespace zenithos
         public static Font defFont;
         public static List<Window> windows = new();
         static List<Application> applications = new();
+        static List<Num> nums = new();
         List<Button> applicationsButtons = new();
+        List<Button> numsButtons = new();
         Button mainButton;
-        Button calendar;
+        Button calendarButton;
         public static int activeIndex = -1;
         bool mainBar;
+        bool lookCalendar;
         public static int bgCount = 1;
+        string time;
 
         [ManifestResourceStream(ResourceName = "zenithos.Resource.bg.bmp")]
         public static readonly byte[] bgBytes;
@@ -50,18 +54,21 @@ namespace zenithos
 
         void DrawTopbar()
         {
+            time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
+
             canv.DrawFilledRectangle(bgCol, 0, 0, (int)canv.Mode.Width, 30);
+            //calendarButton = new Button(time, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont, 7);
+
             mainButton.Update(0, 0);
-            calendar.Update(0, 0);
-            string time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
-            //canv.DrawString(time, defFont, textColDark, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 10);
+            calendarButton.Update(0, 0);
+
             canv.DrawString(activeIndex != -1 && windows.Count != 0 && activeIndex < windows.Count ? windows[activeIndex].title:"",defFont,textColDark,170,8);
         }
 
         void DrawMainBar()
         {
             canv.DrawFilledRectangle(bgCol, 10, 40, 300, applicationsButtons.Count*50+40);
-            canv.DrawString("Welcome to Zenith!", defFont, textColDark, 40, 70 - defFont.Height);
+            canv.DrawString("Welcome to Timur", defFont, textColDark, 40, 70 - defFont.Height);
             for(int i =0;i<applicationsButtons.Count;i++)
             {
                 applicationsButtons[i].Update(10, 40);
@@ -77,7 +84,55 @@ namespace zenithos
 
         void DrawCalendar()
         {
-            canv.DrawFilledRectangle(bgCol, 100, 40, 300, applicationsButtons.Count * 50 + 40);
+
+            time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
+            //calendarButton = new Button(time, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont, 7);
+
+            canv.DrawFilledRectangle(bgCol, (int)canv.Mode.Width - 100 - defFont.Width * time.Length, 40, 400, 5 * 50 + 40);
+            canv.DrawString("Mn", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 30, 70 - defFont.Height);
+            canv.DrawString("Td", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 70, 70 - defFont.Height);
+            canv.DrawString("Wd", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 110, 70 - defFont.Height);
+            canv.DrawString("Th", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 150, 70 - defFont.Height);
+            canv.DrawString("Fr", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 190, 70 - defFont.Height);
+            canv.DrawString("St", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 230, 70 - defFont.Height);
+            canv.DrawString("Sn", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 270, 70 - defFont.Height);
+
+            int counter = 0;
+
+            for (int i = 0; i < numsButtons.Count; i++)
+            {
+                if (counter > 6)
+                {
+                    counter = 0;
+                }
+
+                if (i > 6 && i <= 13)
+                {
+                    numsButtons[i].Update(30 + 40 * counter, 80);
+                    counter++;
+                }
+                else if(i > 13  && i <=  20)
+                {
+                    numsButtons[i].Update(30 + 40 * counter, 120);
+                    counter++;
+                }
+                else if(i > 20 && i <= 27)
+                {
+                    numsButtons[i].Update(30 + 40 * counter, 160);
+                    counter++;
+                }
+                else if(i > 27)
+                {
+                    numsButtons[i].Update(30 + 40 * counter, 200);
+                    counter++;
+                }
+                else
+                {
+                    numsButtons[i].Update(30 + 40 * counter, 40);
+                    counter++;
+                }
+
+            }
         }
 
         public static void ThrowError(string content,string title="Error")
@@ -99,6 +154,16 @@ namespace zenithos
             }
         }
 
+        class Num
+        {
+            public string name;
+
+            public Num(string name)
+            {
+                this.name = name;
+            }
+        }
+        
         protected override void BeforeRun()
         {
             canv = new VBECanvas();
@@ -112,10 +177,10 @@ namespace zenithos
             cursor = new Bitmap(curBytes);
             logo = new Bitmap(logoBytes);
 
-            string time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
+            time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
 
             mainButton = new Button("Timur", 0, 0, mainCol, defFont,7,logo);
-            calendar = new Button(time, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont,7);
+            calendarButton = new Button(time, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont,7);
           
 
             applications.Add(new Application(() => new Calc(), "Calculator",new Calc().logo));
@@ -125,10 +190,28 @@ namespace zenithos
             applications.Add(new Application(() => new BgChange(), "BgChange", new Windows.Power().logo));
             applications.Add(new Application(() => new Windows.Power(), "Power...",new Windows.Power().logo));
 
+            for(int i = 1; i <= 30; i++)
+            {
+                nums.Add(new Num(Convert.ToString(i)));
+            }
+
 
             for (int i = 0; i < applications.Count; i++)
             {
                 applicationsButtons.Add(new Button(applications[i].name, 30, 40 + i * 50, mainCol, defFont, 10, applications[i].logo,240));
+            }
+
+            for (int i = 0;i < nums.Count;i++)
+            {
+                if(time.Split(' ', ',')[3] == Convert.ToString(i + 1))
+                {
+                    numsButtons.Add(new Button(nums[i].name, (int)canv.Mode.Width - 105 - defFont.Width * time.Length, 40, Color.CornflowerBlue, defFont, 10, null, 28));
+                }
+                else
+                {
+                    numsButtons.Add(new Button(nums[i].name, (int)canv.Mode.Width - 105 - defFont.Width * time.Length, 40, mainCol, defFont, 10, null, 28));
+                }
+                
             }
 
             //try
@@ -162,10 +245,16 @@ namespace zenithos
             canv.Clear();
             canv.DrawImage(bg, 0, 0);
             DrawTopbar();
-          
-            if(mainButton.clickedOnce)
+            time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
+            //calendarButton = new Button(time, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont, 7);
+
+            if (mainButton.clickedOnce)
             {
                 mainBar = !mainBar;
+            }
+            if(calendarButton.clickedOnce)
+            {
+                lookCalendar = !lookCalendar;
             }
 
             int mx = (int)MouseManager.X;
@@ -181,6 +270,7 @@ namespace zenithos
                 windows[activeIndex].Update(canv, mx, my, MouseManager.MouseState == MouseState.Left, dmx, dmy);
 
             if (mainBar) DrawMainBar();
+            if (lookCalendar) DrawCalendar();
 
             DrawCursor(MouseManager.X,MouseManager.Y);
             canv.Display();
