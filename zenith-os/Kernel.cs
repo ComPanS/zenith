@@ -97,6 +97,8 @@ namespace zenithos
             canv.DrawString("St", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 230, 70 - defFont.Height);
             canv.DrawString("Sn", defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 270, 70 - defFont.Height);
 
+            canv.DrawString(DateTime.Now.ToString("MMMMMMMM, yyyy"), defFont, textColDark, (int)canv.Mode.Width - 100 - defFont.Width * time.Length + 30, 300);
+
             int counter = 0;
 
             for (int i = 0; i < numsButtons.Count; i++)
