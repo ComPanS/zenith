@@ -30,6 +30,7 @@ namespace zenithos
         static List<Num> nums = new();
         List<Button> applicationsButtons = new();
         List<Button> numsButtons = new();
+        public static List<Text.T> strList = new();
         Button mainButton;
         Button calendarButton;
         public static int activeIndex = -1;
@@ -165,7 +166,16 @@ namespace zenithos
                 this.name = name;
             }
         }
-        
+
+        /*class T
+        {
+            public string a;
+            public T(string a)
+            {
+                this.a = a;
+            }
+        }*/
+
         protected override void BeforeRun()
         {
             canv = new VBECanvas();
@@ -190,6 +200,7 @@ namespace zenithos
             applications.Add(new Application(() => new UITest(), "UI Test", new UITest().logo));
             applications.Add(new Application(() => new About(), "About Timur...", new About().logo));
             applications.Add(new Application(() => new BgChange(), "BgChange", new Windows.Power().logo));
+            applications.Add(new Application(() => new ShowText(), "Show txt Files",new ShowText().logo));
             applications.Add(new Application(() => new Windows.Power(), "Power...",new Windows.Power().logo));
 
             for(int i = 1; i <= 30; i++)
