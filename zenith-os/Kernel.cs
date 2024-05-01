@@ -31,6 +31,7 @@ namespace zenithos
         List<Button> applicationsButtons = new();
         List<Button> numsButtons = new();
         public static List<Text.T> strList = new();
+        public static string copyValue;
         Button mainButton;
         Button calendarButton;
         public static int activeIndex = -1;

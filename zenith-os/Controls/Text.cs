@@ -13,7 +13,7 @@ namespace zenithos.Controls
 {
     public class Text : Control
     {
-        public string Value;
+        public string Value = Kernel.copyValue;
         public int x, y, width, padding;
         VBECanvas canv;
         Font font;
@@ -154,7 +154,10 @@ namespace zenithos.Controls
             if (focused)
                 frames++;
             if (frames % 10 == 0)
+            {
                 Kernel.strList = strList;
+                Kernel.copyValue = Value;
+            }
 
             if (lastTxt != null)
             {
