@@ -49,15 +49,15 @@ namespace zenithos.Controls
                 KeyboardManager.TryReadKey(out KeyEvent key);
                 if (countEnter == 22 &&  key.Key != ConsoleKeyEx.Backspace)
                 {
-                    return str.Substring(0,x);
+                    return str.Substring(0, x);
                 }
                 else
                 {
                     countEnter++;
-                    strList.Add(new T(str.Substring(str.Length - x)));
-                    Value = "";
+                    strList.Add(new T(str.Substring(0, x)));
+                    Value = Convert.ToString(str[str.Length - 1]);
                     padding += 10;
-                    return str.Substring(str.Length - x); // Get the last x characters
+                    return str.Substring(0, x); // Get the last x characters
                 }
             }
         }
@@ -125,10 +125,13 @@ namespace zenithos.Controls
                     {
                         Value += "";
                     }
-                    else
+                    else if(Value.Length < (int)MathF.Round((width + 90) / font.Width) - (focused ? 1 : 0) && countEnter == 22)
                     {
                         Value += key.KeyChar;
-
+                    }
+                    else if(countEnter < 22)
+                    {
+                        Value += key.KeyChar;
                     }
                 }
 

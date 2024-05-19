@@ -39,6 +39,7 @@ namespace zenithos
         bool lookCalendar;
         public static int bgCount = 1;
         string time;
+        string spaces = "";
 
         [ManifestResourceStream(ResourceName = "zenithos.Resource.bg.bmp")]
         public static readonly byte[] bgBytes;
@@ -191,9 +192,14 @@ namespace zenithos
             logo = new Bitmap(logoBytes);
 
             time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
+            IEnumerable<string> repeatStrings = Enumerable.Repeat(" ", time.Length);
+            foreach (string repeatString in repeatStrings)
+            {
+                spaces += repeatString;
+            }
 
             mainButton = new Button("Timur", 0, 0, mainCol, defFont,7,logo);
-            calendarButton = new Button(time, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont,7);
+            calendarButton = new Button(spaces, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont,7);
           
 
             applications.Add(new Application(() => new Calc(), "Calculator",new Calc().logo));
@@ -225,20 +231,7 @@ namespace zenithos
                 {
                     numsButtons.Add(new Button(nums[i].name, (int)canv.Mode.Width - 105 - defFont.Width * time.Length, 40, mainCol, defFont, 10, null, 28));
                 }
-                
             }
-
-            //try
-            //{
-            //    var mixer = new AudioMixer();
-            //    var audioStream = MemoryAudioStream.FromWave(sampleAudioBytes);
-            //    var driver = AC97.Initialize(bufferSize: 4096);
-            //}
-            //catch(Exception ex)
-            //{
-            //    ThrowError(ex.Message, "Audio Driver Initialization Error");
-            //}
-
         }
 
         public void DrawCursor(uint x, uint y)
@@ -260,6 +253,7 @@ namespace zenithos
             canv.DrawImage(bg, 0, 0);
             DrawTopbar();
             time = DateTime.Now.ToString("dddd, MMM d, yyyy. HH:mm");
+            canv.DrawString(time, defFont, textColDark, (int)canv.Mode.Width - 10 - defFont.Width * time.Length, 7);
             //calendarButton = new Button(time, (int)canv.Mode.Width - 20 - defFont.Width * time.Length, 0, mainCol, defFont, 7);
 
             if (mainButton.clickedOnce)
